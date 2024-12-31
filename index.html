@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy New Year 2025!</title>
+    <title>Happy New Year 2024!</title>
     <style>
         /* General Styling */
         body {
@@ -18,7 +18,6 @@
             color: #fff;
         }
 
-        /* Background Animations */
         .background {
             position: absolute;
             width: 100%;
@@ -69,7 +68,6 @@
             }
         }
 
-        /* Message Box */
         .message-box {
             position: relative;
             text-align: center;
@@ -94,7 +92,6 @@
             margin-top: 10px;
         }
 
-        /* Button */
         .button {
             display: inline-block;
             margin-top: 20px;
@@ -116,7 +113,6 @@
             box-shadow: 0 10px 25px rgba(255, 204, 51, 0.7);
         }
 
-        /* Animation */
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -125,6 +121,37 @@
             100% {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Confetti Styling */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffcc33;
+            animation: confettiFall 2s linear infinite, spin 1s linear infinite;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
@@ -138,10 +165,33 @@
 </div>
 
 <div class="message-box">
-    <h1>🎆 Happy New Year 2025! from INRA🎆</h1>
+    <h1>🎆 Happy New Year 2025 from INRA! 🎆</h1>
     <p>May your year be filled with magic, dreams, and good madness. Cheers to a new year and another chance to get it right!</p>
-    <a href="https://www.messenger.com/t/https://www.facebook.com/madhav.crseven?mibextid=ZbWKwL" class="button">Send Wishes 🎉</a>
+    <button class="button" onclick="celebrate()">Send Wishes 🎉</button>
 </div>
+
+<script>
+    function celebrate() {
+        // Add confetti effect
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.backgroundColor = getRandomColor();
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(confetti);
+
+            // Remove confetti after animation
+            setTimeout(() => confetti.remove(), 2000);
+        }
+    }
+
+    // Random color generator
+    function getRandomColor() {
+        const colors = ['#ffcc33', '#ff5733', '#33ccff', '#ff33ff', '#85ff33'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+</script>
 
 </body>
 </html>
