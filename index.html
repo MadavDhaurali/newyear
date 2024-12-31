@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy New Year 2024!</title>
     <style>
-        /* General Styling */
         body {
             margin: 0;
             height: 100vh;
@@ -25,26 +24,7 @@
             overflow: hidden;
         }
 
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-50px) translateX(20px);
-            }
-            100% {
-                transform: translateY(0) translateX(0);
-            }
-        }
-
-        .message-box {
+        .message-box, .input-box {
             position: relative;
             text-align: center;
             z-index: 2;
@@ -69,7 +49,7 @@
             margin-top: 10px;
         }
 
-        .button {
+        .button, .input-button {
             display: inline-block;
             margin-top: 20px;
             padding: 15px 30px;
@@ -85,9 +65,17 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .button:hover {
+        .button:hover, .input-button:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 25px rgba(255, 204, 51, 0.7);
+        }
+
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
         }
 
         @keyframes fadeInUp {
@@ -150,17 +138,37 @@
 </head>
 <body>
 
-<div class="background">
-    <div class="circle"></div>
+<div class="background"></div>
+
+<!-- Input Box -->
+<div class="input-box" id="input-box">
+    <h1>🎉 Welcome! 🎉</h1>
+    <p>Please enter your name to receive a personalized Happy New Year wish:</p>
+    <input type="text" id="name-input" placeholder="Enter your name here" />
+    <button class="input-button" onclick="submitName()">Submit</button>
 </div>
 
-<div class="message-box">
+<!-- Message Box -->
+<div class="message-box" id="message-box" style="display: none;">
     <h1 id="main-message">🎆 Happy New Year 2024! 🎆</h1>
-    <p>May your year be filled with magic, dreams, and good madness. Cheers to a new year and another chance to get it right!</p>
+    <p id="personal-message"></p>
     <button class="button" onclick="celebrate()">Send Wishes 🎉</button>
 </div>
 
 <script>
+    // Handle name submission
+    function submitName() {
+        const nameInput = document.getElementById('name-input').value.trim();
+        if (nameInput) {
+            document.getElementById('personal-message').innerText = `Happy New Year, ${nameInput}! 🎊 May this year bring you joy and success!`;
+            document.getElementById('input-box').style.display = 'none';
+            document.getElementById('message-box').style.display = 'block';
+        } else {
+            alert('Please enter your name!');
+        }
+    }
+
+    // Fireworks Celebration
     function celebrate() {
         const message = document.getElementById("main-message");
 
