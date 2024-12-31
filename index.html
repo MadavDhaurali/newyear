@@ -32,30 +32,6 @@
             animation: float 20s infinite ease-in-out;
         }
 
-        .circle:nth-child(1) {
-            width: 200px;
-            height: 200px;
-            top: 20%;
-            left: 15%;
-            animation-delay: 2s;
-        }
-
-        .circle:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            bottom: 10%;
-            right: 20%;
-            animation-delay: 4s;
-        }
-
-        .circle:nth-child(3) {
-            width: 300px;
-            height: 300px;
-            top: 40%;
-            right: 10%;
-            animation-delay: 6s;
-        }
-
         @keyframes float {
             0% {
                 transform: translateY(0) translateX(0);
@@ -84,6 +60,7 @@
             color: #ffcc33;
             margin: 0;
             text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         p {
@@ -124,34 +101,49 @@
             }
         }
 
-        /* Confetti Styling */
-        .confetti {
+        /* Fireworks Styling */
+        .firework {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ffcc33;
-            animation: confettiFall 2s linear infinite, spin 1s linear infinite;
+            width: 15px;
+            height: 15px;
+            background-color: transparent;
             border-radius: 50%;
-            opacity: 0;
+            animation: explode 1.5s ease-out forwards;
+            box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.6);
         }
 
-        @keyframes confettiFall {
+        @keyframes explode {
             0% {
-                transform: translateY(-100px);
+                transform: scale(0);
+                opacity: 1;
+            }
+            70% {
+                transform: scale(5);
                 opacity: 1;
             }
             100% {
-                transform: translateY(500px);
+                transform: scale(6);
                 opacity: 0;
             }
         }
 
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleMove 1.2s ease-out forwards;
+        }
+
+        @keyframes sparkleMove {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
             }
-            to {
-                transform: rotate(360deg);
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
             }
         }
     </style>
@@ -160,36 +152,51 @@
 
 <div class="background">
     <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
 </div>
 
 <div class="message-box">
-    <h1>🎆 Happy New Year 2025 from INRA! 🎆</h1>
+    <h1 id="main-message">🎆 Happy New Year 2024! 🎆</h1>
     <p>May your year be filled with magic, dreams, and good madness. Cheers to a new year and another chance to get it right!</p>
     <button class="button" onclick="celebrate()">Send Wishes 🎉</button>
 </div>
 
 <script>
     function celebrate() {
-        // Add confetti effect
-        for (let i = 0; i < 100; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            confetti.style.left = Math.random() * window.innerWidth + 'px';
-            confetti.style.backgroundColor = getRandomColor();
-            confetti.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(confetti);
+        const message = document.getElementById("main-message");
 
-            // Remove confetti after animation
-            setTimeout(() => confetti.remove(), 2000);
+        // Fireworks Effect
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => createFirework(), i * 500);
         }
+
+        // Glowing Text Effect
+        message.style.transform = "scale(1.2)";
+        message.style.color = "#ff5733";
+
+        setTimeout(() => {
+            message.style.transform = "scale(1)";
+            message.style.color = "#ffcc33";
+        }, 1500);
     }
 
-    // Random color generator
-    function getRandomColor() {
-        const colors = ['#ffcc33', '#ff5733', '#33ccff', '#ff33ff', '#85ff33'];
-        return colors[Math.floor(Math.random() * colors.length)];
+    function createFirework() {
+        const firework = document.createElement("div");
+        firework.className = "firework";
+        firework.style.left = `${Math.random() * window.innerWidth}px`;
+        firework.style.top = `${Math.random() * window.innerHeight}px`;
+
+        for (let i = 0; i < 20; i++) {
+            const sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            sparkle.style.setProperty("--x", `${Math.random() * 200 - 100}px`);
+            sparkle.style.setProperty("--y", `${Math.random() * 200 - 100}px`);
+            firework.appendChild(sparkle);
+        }
+
+        document.body.appendChild(firework);
+
+        // Remove firework after animation
+        setTimeout(() => firework.remove(), 1500);
     }
 </script>
 
